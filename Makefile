@@ -34,5 +34,8 @@ darwin: setup
 	cd $(BUILD_DIR) && GOOS=darwin GOARCH=$(GOARCH) $(GO) build -v -x -o mwctl-darwin-$(GOARCH)
 	mv $(BUILD_DIR)/mwctl-darwin-$(GOARCH) $(BINDIR)
 
+test: setup
+	cd $(BUILD_DIR) && go test
+
 
 .PHONY: all clean setup linux windows darwin test
