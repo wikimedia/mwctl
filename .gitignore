@@ -1,5 +1,4 @@
 # Binaries for programs and plugins
-*.exe
 *.dll
 *.so
 *.dylib
@@ -12,3 +11,9 @@
 
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
+
+# Emacs (yes, Emacs)
+*~
+
+# Locally generated detritus
+.build/
