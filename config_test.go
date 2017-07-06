@@ -5,10 +5,26 @@ import (
 	"testing"
 )
 
+func TestConfigGetSet(t *testing.T) {
+	config := NewConfig()
+	err := config.Set("service.restbase.source", "~/dev/src/git/restbase")
+	if err != nil {
+		t.Fail()
+	}
+	if val, _ := config.Get("service.restbase.source"); val != "~/dev/src/git/restbase" {
+		t.Fail()
+	}
+
+	// Use an invalid key (this should fail)
+	if config.Set("bogus.key", "correspondingly bogus value") == nil {
+		t.Fail()
+	}
+}
+
 func TestReadWriteConfigFile(t *testing.T) {
 	// Create a new config object...
 	config := NewConfig()
-	config.Sources["restbase"] = "git@github.com:wikimedia/restbase"
+	config.Set("service.restbase.source", "~/dev/src/git/restbase")
 
 	// ...create a temporary file
 	tmpfile, err := ioutil.TempFile("", "mwctl-cfg")
@@ -29,11 +45,11 @@ func TestReadWriteConfigFile(t *testing.T) {
 	}
 
 	// ...and validate the result
-	if len(config.Sources) != 1 {
+	if len(config.Services) != 1 {
 		t.Fail()
 	}
 
-	if config.Sources["restbase"] != "git@github.com:wikimedia/restbase" {
+	if val, _ := config.Get("service.restbase.source"); val != "~/dev/src/git/restbase" {
 		t.Fail()
 	}
 }
